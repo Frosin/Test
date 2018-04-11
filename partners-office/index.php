@@ -10,8 +10,6 @@ $APPLICATION->SetTitle("Партнерский кабинет");
 		"AJAX_OPTION_HISTORY" => "N",
 		"AJAX_OPTION_JUMP" => "N",
 		"AJAX_OPTION_STYLE" => "Y",
-		"CACHE_TIME" => "36000000",
-		"CACHE_TYPE" => "A",
 		"ELEMENTS_COUNT" => "2",
 		"ELEMENT_ID" => "ELEMENT_ID",
 		"IBLOCK_ID" => "2",
