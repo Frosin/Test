@@ -1,23 +1,21 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-?>
 
-<?
 if (CModule::IncludeModule('iblock')) 
 {
     $iblocktype = "partners";
    
     $obIBlockType =  new CIBlockType;
     $arFields = Array(
-        "ID"=>$iblocktype,
-        "SECTIONS"=>"Y",
-        "LANG"=>Array(
-                    "ru"=>Array(
-                    "NAME"=>"Партнеры",               
-                    ), 
-                    "en"=>Array(
-                    'NAME'=>'Partners',
-                    )
+        "ID" => $iblocktype,
+        "SECTIONS" => "Y",
+        "LANG" => Array(
+            "ru" => Array(
+            "NAME" => "Партнеры",               
+            ), 
+            "en" => Array(
+            'NAME' => 'Partners',
+            )
         )
     );
     $res = $obIBlockType->Add($arFields);
@@ -29,14 +27,13 @@ if (CModule::IncludeModule('iblock'))
     {
         $obIblock = new CIBlock;
         $arFields = Array(
-            "NAME"=> "Партнеры",
+            "NAME" => "Партнеры",
             "ACTIVE" => "Y",
             "IBLOCK_TYPE_ID" => $iblocktype,
             "SITE_ID" => "s1"
         );
         $newIblockID = $obIblock->Add($arFields);
         
-
         $ibp = new CIBlockProperty;
         $ibp->Add(Array(
             "NAME" => "Описание",
@@ -69,6 +66,5 @@ if (CModule::IncludeModule('iblock'))
            
    }
 }
-?>
 
-<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");

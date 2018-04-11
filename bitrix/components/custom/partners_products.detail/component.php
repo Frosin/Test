@@ -1,11 +1,10 @@
-<? if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+<? if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 $idPartner = $arParams["VARIABLES"]["PARTNER_ID"];
 $idElement = $arParams["VARIABLES"]["ELEMENT_ID"];
 
 if(!CModule::includeModule("iblock"))
 {
-	$this->abortResultCache();
 	ShowError("Модуля инфоблока нету :(");
 	return;
 }
@@ -21,10 +20,10 @@ $arSelectFields = Array(
     "ID",
     "NAME",
     "DETAIL_TEXT",
+    'PROPERTY_PARTNER.ID',
     "PROPERTY_PARTNER.NAME",
     "PROPERTY_PARTNER.PROPERTY_DESCRIPTION",
     "PROPERTY_PARTNER.PROPERTY_CONDITIONS",
-    
 );
 
 $res = CIBlockElement::GetList(
@@ -35,10 +34,19 @@ $res = CIBlockElement::GetList(
     $arSelectFields
 );
 
-$arResult = $res->GetNextElement()->GetFields();
 
-$this->IncludeComponentTemplate();
-?>
+$rsNext = $res->GetNextElement();
+
+if ($rsNext)
+{
+    $arResult = $rsNext->GetFields();
+    $this->IncludeComponentTemplate();
+}
+else
+{
+    ShowError("Элемент по неясной причине не найден...");
+}
+
 
 
 

@@ -1,13 +1,12 @@
 <?if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true) die();
 
-if(!CModule::IncludeModule("iblock"))
+if (!CModule::IncludeModule("iblock"))
 	return;
 
 $arComponentParameters = array(
 	"GROUPS" => array(
 	),
 	"PARAMETERS" => array(
-        "CACHE_TIME" => array('DEFAULT' => 36000000),
         "AJAX_MODE" => array(),
     	"IBLOCK_TYPE" => array(
 			"PARENT" => "BASE",
@@ -53,4 +52,3 @@ $arComponentParameters = array(
         
 	),
 );
-?>

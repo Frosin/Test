@@ -1,0 +1,17 @@
+.border__solid
+{
+    border: 1px solid black;
+}
+.border__dotted
+{
+    border: 1px dotted black;
+    margin: 5px;
+}
+.active
+{
+    color: red;
+}
+.noactive
+{
+    color: black;
+}

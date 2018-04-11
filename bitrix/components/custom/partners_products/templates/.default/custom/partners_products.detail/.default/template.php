@@ -6,4 +6,5 @@
 <p>Партнер: <?=$arResult["PROPERTY_PARTNER_NAME"]?></p>
 <p>Описание: <?=$arResult["PROPERTY_PARTNER_PROPERTY_DESCRIPTION_VALUE"]?> </p>
 <p>Условия доставки: <?=$arResult["PROPERTY_PARTNER_PROPERTY_CONDITIONS_VALUE"]?></p>
+<a href="<?=$APPLICATION->GetCurPage()."?".$arParams["PARTNER_ID"]."=".$arResult["PROPERTY_PARTNER_ID"]?>"> &#8249;-Назад </a>
 </div>

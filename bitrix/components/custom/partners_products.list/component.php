@@ -1,4 +1,4 @@
-<? if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+<? if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
 $idPartner = $arParams["VARIABLES"]["PARTNER_ID"];
 
@@ -17,7 +17,6 @@ $arSelectFields = Array(
 
 if(!CModule::includeModule("iblock"))
 {
-    $this->abortResultCache();
     ShowError("Модуля инфоблока нету :(");
     return;
 }
@@ -43,4 +42,3 @@ $arResult["ITEMS"] = $arItems;
 $arResult["NAV_PRINT"] = $res->NavPrint("Элементы");
 
 $this->IncludeComponentTemplate();
-?>

@@ -33,6 +33,7 @@ $arGroupBy = false;
 $arNavStartParams = Array();
 $arSelectFields = Array(
     "PROPERTY_PARTNER.NAME",
+    "PROPERTY_PARTNER.ID",
     "PROPERTY_PARTNER.PROPERTY_DESCRIPTION",
     "PROPERTY_PARTNER.PROPERTY_CONDITIONS",
     
@@ -46,11 +47,18 @@ $result = CIBlockElement::GetList(
     $arSelectFields
 );
 
-$arItem = $result->GetNextElement()->GetFields();
+$rsNext = $result->GetNextElement();
+
+if ($rsNext)
+    $arItem = $rsNext->GetFields();
 
 // Добавляем в вывод наши свойства
-if ( !is_null($arItem["PROPERTY_PARTNER_NAME"]) )
+if ( $rsNext && !is_null($arItem["PROPERTY_PARTNER_NAME"]) )
 {
+    // Имя партнера
+	$arResult["DISPLAY_PROPERTIES"]['PARTNER']["NAME"] = "Партнер";
+	$arResult["DISPLAY_PROPERTIES"]['PARTNER']["DISPLAY_VALUE"] = $arItem["PROPERTY_PARTNER_NAME"];
+	$arResult["DISPLAY_PROPERTIES"]['PARTNER']["VALUE"] = $arItem["PROPERTY_PARTNER_ID"];    
 	// Условия доставки
 	$arResult["DISPLAY_PROPERTIES"]['CONDITIONS']["NAME"] = "Условия доставки";
 	$arResult["DISPLAY_PROPERTIES"]['CONDITIONS']["DISPLAY_VALUE"] = $arItem["PROPERTY_PARTNER_PROPERTY_CONDITIONS_VALUE"];

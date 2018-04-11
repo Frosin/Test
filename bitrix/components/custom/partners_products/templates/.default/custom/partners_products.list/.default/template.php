@@ -1,14 +1,14 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
-<div style = "border: 1px solid black;">
+<div class = "border__solid">
 <?foreach($arResult["ITEMS"] as $arItem):?>
-    <div style="border: 1px dotted black; margin: 5px;">
+    <div style="border__dotted">
        
         <?$detailLink = $APPLICATION->GetCurPage()."?".$arParams["PARTNER_ID"]."=".$arParams["VARIABLES"]["PARTNER_ID"].
         "&".$arParams["ELEMENT_ID"]."=".$arItem["ID"]?>
         
         <a href="<?=$detailLink?>"><?=$arItem["NAME"]?></a>
-        <span style="color: <?if($arItem["ACTIVE"]=="Y"):?>black;">(Активен)</span>
-        <?else:?>red;">(Не активен)</span>
+        <span class="<?if($arItem["ACTIVE"]=="Y"):?>active">(Активен)</span>
+        <?else:?>noactive">(Не активен)</span>
         <?endif;?>
         
         <?$activeKey = ($arItem["ACTIVE"]=="Y"?"N":"Y");?>

@@ -1,10 +1,7 @@
-<? if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
-?>
+<? if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 
-<?
 if(!CModule::includeModule("iblock"))
 {
-    $this->abortResultCache();
     ShowError("Модуля инфоблока нету :(");
     return;
 }
@@ -19,7 +16,7 @@ if (!CUser::IsAuthorized())
 $result = CIBlockElement::GetList(
         array(), 
         array(
-            "IBLOCK_ID" =>  $arParams["PARTNERS_IBLOCK_ID"], // Ищем в инфоблоке партнеров
+            "IBLOCK_ID" => $arParams["PARTNERS_IBLOCK_ID"], // Ищем в инфоблоке партнеров
             "PROPERTY_OPERATOR" => CUser::GetID()  // с id оператора совпадающим с id текущего пользователя
         ),
         false,
@@ -47,28 +44,34 @@ $arVariableAliases = array(// Массив псевдонимов перемен
 $arVariables = array(); // Массив для извлеченных из HTTP переменных
 CComponentEngine::InitComponentVariables(false, $arComponentVariables, $arVariableAliases, $arVariables); // Заполняем массив
     
-if ( (count($curUserPartners)==0) || // Если нет товаров с привязкой Партнер -> текущий пользователь
-     (isset($arVariables["PARTNER_ID"]) && !in_array($arVariables["PARTNER_ID"], $curUserPartners))  ) { // или в url введен id недопустимого партнера
+if ((count($curUserPartners) == 0) || // Если нет товаров с привязкой Партнер -> текущий пользователь
+     (isset($arVariables["PARTNER_ID"]) && !in_array($arVariables["PARTNER_ID"], $curUserPartners))) 
+{ // или в url введен id недопустимого партнера
     ShowError("Доступ запрещен!");
     return;
 }   
 
 $componentPage = "";
 
-if(isset($arVariables["PARTNER_ID"]) && isset($arVariables["ELEMENT_ID"]))
-    $componentPage = "detail";
-elseif(isset($arVariables["PARTNER_ID"]))
+if (isset($arVariables["PARTNER_ID"]) && isset($arVariables["ELEMENT_ID"]))
+{
+    if (intval($arVariables["PARTNER_ID"]) > 0 && intval($arVariables["ELEMENT_ID"]) > 0)
+        $componentPage = "detail";
+    else
+		$componentPage = "tab";
+}
+elseif (isset($arVariables["PARTNER_ID"]) && intval($arVariables["PARTNER_ID"]) > 0 )
+{
     $componentPage = "list";
+}
 else
+{
     $componentPage = "tab";
+}
 
-	$arResult = array(
-		"VARIABLES" => $arVariables, // передаем в результ HTTP переменные
-        "CUR_USER_PARTNERS" => $curUserPartners // и id допустимых партнеров текущего пользователя
-	);  
+$arResult = array(
+    "VARIABLES" => $arVariables, // передаем в результ HTTP переменные
+    "CUR_USER_PARTNERS" => $curUserPartners // и id допустимых партнеров текущего пользователя
+);  
 
 $this->IncludeComponentTemplate($componentPage); 
-?>
-
-
-
