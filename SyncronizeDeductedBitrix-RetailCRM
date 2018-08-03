@@ -1,0 +1,67 @@
+
+/*
+Добавляем в экспорт в retailCRM флаг "отгружен",
+Экспортируем в битрикс из retailCRM флаг "отгружен"
+
+
+
+*/
+
+
+
+
+
+//define(LOG_FILENAME, $_SERVER['DOCUMENT_ROOT']."/log.log");
+
+
+
+
+
+function retailCrmBeforeOrderSend($order, $arFields)
+{
+    //Ваши изменения
+  //  $order['customFields']['deducted'] =
+    //file_put_contents( $_SERVER['DOCUMENT_ROOT']."/test_order.log", var_export($order, true) );
+    //file_put_contents( $_SERVER['DOCUMENT_ROOT']."/test_fields.log", var_export($arFields, true) );
+
+    if (CModule::IncludeModule("sale"))
+    {
+      $arParams = CSaleOrder::GetByID(1);
+      $isDeducted = $arParams['DEDUCTED'];
+      $order['customFields']['deducted'] = ($isDeducted == 'Y' ? true : false);
+    }
+
+    return $order;
+}
+
+
+
+function retailCrmAfterOrderSave($order)
+{
+    $db_sales = CSaleOrder::GetList(array("DATE_INSERT" => "ASC"), array('ACCOUNT_NUMBER' => $order['number']));
+    while ($arFields = $db_sales->Fetch())
+    {
+      $orderId = $arFields["ID"];
+      file_put_contents( $_SERVER['DOCUMENT_ROOT']."/_orderId.log", $orderId, true);
+    }
+
+
+    $deducted = ($order['customFields']['deducted'] == true ? 'Y' : 'N');
+    //file_put_contents( $_SERVER['DOCUMENT_ROOT']."/_deducted.log", $deducted, true);
+
+    CModule::IncludeModule("sale");
+    $order = \Bitrix\Sale\Order::load($orderId);
+
+    $shipmentCollection = $order->getShipmentCollection();
+    foreach($shipmentCollection as $shipment)
+    {
+
+    	if (!$shipment->isSystem())
+    	{
+    	   $shipment->setField('DEDUCTED', $deducted);
+         $shipment->save();
+    	}
+    }
+
+    return;
+}
